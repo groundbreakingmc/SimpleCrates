@@ -1,0 +1,16 @@
+name: "&6Бесплатном кейсе"
+
+hologram:
+  offset: 1.5
+  lines:
+    - "&6Бесплатный Кейс"
+
+prizes:
+  1:
+    chance: 10
+    name: "Писюн в карамели на палочке"
+    material: STONE
+    actions:
+      - "[CONSOLE] ban {player} -s Наёбка, не писюн, а бан! хахахах"
+
+locations: []

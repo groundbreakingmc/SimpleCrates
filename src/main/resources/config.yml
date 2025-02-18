@@ -1,0 +1,17 @@
+settings:
+  config-version: 1.0
+  colorizer-serializer: LEGACY_ADVANCED
+  cases-world: "world"
+
+crates:
+  example: "crates/example.yml"
+
+# Можно оставить пустым, чтобы отключить
+messages:
+  reload: "&2(!) &aПлагин успешно перезагружен."
+  no-cases: "&4(!) &cУ тебя нету кейсов!"
+  victory: |-
+    &f
+    &f Игрок {player} выйграл {prize} в {case}
+    &f Пиши &6/free&f, если хочешь так-же!
+    &f

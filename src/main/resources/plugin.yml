@@ -1,0 +1,20 @@
+name: ${project.name}
+version: ${project.version}
+
+main: com.github.groundbreakingmc.simplecrates.SimpleCrates
+api-version: 1.20
+depend: [ MyLib, Vault, LuckPerms, DecentHolograms ]
+
+author: GroundbreakingMC
+
+commands:
+  simplecrates:
+    permission: simplecrates.admin
+    aliases:
+      - scrates
+      - crates
+      - simplecases
+
+permissions:
+  simplecrates.admin:
+    default: false
