@@ -1,14 +1,13 @@
 package com.github.groundbreakingmc.simplecrates.utils.config;
 
-import com.github.groundbreakingmc.simplecrates.SimpleCrates;
-import com.github.groundbreakingmc.simplecrates.Crate;
-import com.github.groundbreakingmc.simplecrates.actions.Action;
+import com.github.groundbreakingmc.mylib.actions.Action;
 import com.github.groundbreakingmc.mylib.collections.cases.Triplet;
 import com.github.groundbreakingmc.mylib.colorizer.Colorizer;
 import com.github.groundbreakingmc.mylib.colorizer.ColorizerFactory;
 import com.github.groundbreakingmc.mylib.config.ConfigurateLoader;
-import com.github.groundbreakingmc.mylib.logger.LoggerFactory;
 import com.github.groundbreakingmc.mylib.utils.bukkit.BukkitSerializeUtils;
+import com.github.groundbreakingmc.simplecrates.Crate;
+import com.github.groundbreakingmc.simplecrates.SimpleCrates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -30,6 +29,9 @@ import java.util.*;
 @Getter
 public final class ConfigValues {
 
+    @Getter(AccessLevel.NONE)
+    private final SimpleCrates plugin;
+
     private Colorizer colorizer;
     private World world;
 
@@ -39,9 +41,6 @@ public final class ConfigValues {
 
     private String reloadMessage;
     private String noCasesMessage;
-
-    @Getter(AccessLevel.NONE)
-    private final SimpleCrates plugin;
 
     public ConfigValues(final SimpleCrates plugin) {
         this.plugin = plugin;
@@ -133,7 +132,12 @@ public final class ConfigValues {
 
     private List<Action.ActionExecutor> getActions(final ConfigurationNode node) throws SerializationException {
         return node.node("actions").getList(String.class).stream()
-                .map(string -> Action.fromString(string).createAction(this.plugin, string))
+                .map(string -> Action.fromString(string).createAction(
+                        this.plugin,
+                        this.plugin.getCustomLogger(),
+                        this.colorizer,
+                        string
+                ))
                 .collect(ImmutableList.toImmutableList());
     }
 
@@ -160,7 +164,7 @@ public final class ConfigValues {
     }
 
     private ConfigurationNode getConfig(final String fileName, final double fileVersion, final String versionPath) {
-        return ConfigurateLoader.loader(this.plugin, LoggerFactory.createLogger(this.plugin))
+        return ConfigurateLoader.loader(this.plugin, this.plugin.getCustomLogger())
                 .fileName(fileName)
                 .fileVersion(fileVersion)
                 .fileVersionPath(versionPath)

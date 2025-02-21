@@ -1,9 +1,9 @@
 package com.github.groundbreakingmc.simplecrates.utils;
 
+import com.github.groundbreakingmc.mylib.actions.Action;
 import com.github.groundbreakingmc.mylib.collections.cases.Triplet;
 import com.github.groundbreakingmc.simplecrates.Crate;
 import com.github.groundbreakingmc.simplecrates.SimpleCrates;
-import com.github.groundbreakingmc.simplecrates.actions.Action;
 import com.google.common.collect.ImmutableList;
 import eu.decentsoftware.holograms.api.holograms.Hologram;
 import lombok.experimental.UtilityClass;

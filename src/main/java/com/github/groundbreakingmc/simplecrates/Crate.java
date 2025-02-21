@@ -1,6 +1,6 @@
 package com.github.groundbreakingmc.simplecrates;
 
-import com.github.groundbreakingmc.simplecrates.actions.Action;
+import com.github.groundbreakingmc.mylib.actions.Action;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 

@@ -1,6 +1,7 @@
 package com.github.groundbreakingmc.simplecrates;
 
 import com.github.groundbreakingmc.mylib.logger.Logger;
+import com.github.groundbreakingmc.mylib.logger.LoggerFactory;
 import com.github.groundbreakingmc.mylib.logger.ModernLogger;
 import com.github.groundbreakingmc.simplecrates.command.CommandManager;
 import com.github.groundbreakingmc.simplecrates.database.DatabaseManager;
@@ -23,6 +24,7 @@ public final class SimpleCrates extends JavaPlugin {
     private final DatabaseManager database = new DatabaseManager(this);
     private final DataManager dataManager = new DataManager(this);
     private final KeysAmountPlaceholder placeholder = new KeysAmountPlaceholder(this);
+    private final Logger customLogger = LoggerFactory.createLogger(this);
 
     @Override
     public void onEnable() {
