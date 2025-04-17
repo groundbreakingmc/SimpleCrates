@@ -3,16 +3,17 @@ package com.github.groundbreakingmc.simplecrates.database;
 import com.github.groundbreakingmc.mylib.database.Database;
 import com.github.groundbreakingmc.mylib.database.DatabaseUtils;
 import com.github.groundbreakingmc.simplecrates.SimpleCrates;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public final class DatabaseManager extends Database {
 
+    @SuppressWarnings("unused")
     public static final String SET_PLAYER_KEYS = """
             INSERT INTO player_keys (player_uuid, case_type, key_count)
             VALUES (?, ?, ?)
@@ -52,7 +53,7 @@ public final class DatabaseManager extends Database {
         try (final Connection connection = super.getConnection()) {
             super.createTables(connection, query);
         } catch (final SQLException ex) {
-            ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
 
@@ -60,18 +61,18 @@ public final class DatabaseManager extends Database {
                                  final String caseType, final int keyCount) {
         try (final Connection connection = super.getConnection()) {
             super.executeUpdateQuery(query, connection, playerUUID, caseType, keyCount);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (final SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
     public Map<String, Integer> getPlayerKeys(final UUID playerUUID) {
-        final Map<String, Integer> keysMap = new HashMap<>();
+        final Map<String, Integer> keysMap = new Object2ObjectOpenHashMap<>();
         try (final Connection connection = super.getConnection();
-                final ResultSet resultSet = super.getStatement(
-                        GET_PLAYER_KEYS,
-                        connection,
-                        playerUUID.toString()).executeQuery()) {
+             final ResultSet resultSet = super.getStatement(
+                     GET_PLAYER_KEYS,
+                     connection,
+                     playerUUID.toString()).executeQuery()) {
             while (resultSet.next()) {
                 String caseType = resultSet.getString("case_type");
                 int keyCount = resultSet.getInt("key_count");

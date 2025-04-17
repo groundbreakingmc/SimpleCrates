@@ -95,7 +95,7 @@
         <dependency>
             <groupId>com.github.groundbreakingmc</groupId>
             <artifactId>MyLib</artifactId>
-            <version>1.0</version>
+            <version>main-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

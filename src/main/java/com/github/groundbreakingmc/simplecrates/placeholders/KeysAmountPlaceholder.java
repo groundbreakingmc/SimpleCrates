@@ -32,7 +32,7 @@ public final class KeysAmountPlaceholder extends PlaceholderExpansion {
     @Override
     public @NotNull String onRequest(final OfflinePlayer player, @NotNull String params) {
         if (player == null || !player.isOnline()) {
-            return "players only!";
+            return "Online players only!";
         }
 
         return Integer.toString(this.dataManager.getPlayerKeys(player.getPlayer(), params));

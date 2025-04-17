@@ -1,5 +1,6 @@
 package com.github.groundbreakingmc.simplecrates.command;
 
+import com.github.groundbreakingmc.mylib.utils.command.CommandUtils;
 import com.github.groundbreakingmc.simplecrates.SimpleCrates;
 import com.github.groundbreakingmc.simplecrates.listeners.DataManager;
 import com.github.groundbreakingmc.simplecrates.utils.config.ConfigValues;
@@ -45,8 +46,8 @@ public final class CommandManager implements TabExecutor {
                     this.configValues.setupValues();
                     sender.sendMessage(this.configValues.getReloadMessage());
                 } catch (final SerializationException ex) {
-                    ex.printStackTrace();
                     sender.sendMessage("Nasral govnom! (check console)");
+                    throw new RuntimeException(ex);
                 }
             }
             case "load" -> Bukkit.getScheduler().runTaskAsynchronously(this.plugin, () -> {
@@ -101,24 +102,12 @@ public final class CommandManager implements TabExecutor {
             }
 
             if (args[0].equalsIgnoreCase("give")) {
-                if (args.length == 2) {
-                    final List<String> completions = new ArrayList<>();
-                    final String input = args[1];
-                    for (final Player player : Bukkit.getOnlinePlayers()) {
-                        if (StringUtil.startsWithIgnoreCase(player.getName(), input)) {
-                            completions.add(player.getName());
-                        }
-                    }
-                    return completions;
-                }
-
-                if (args.length == 3) {
-                    return List.copyOf(this.configValues.getCrateNames());
-                }
-
-                if (args.length == 4) {
-                    return List.of("<amount>");
-                }
+                return switch (args.length) {
+                    case 2 -> CommandUtils.tabCompletePlayerNames(args[1]);
+                    case 3 -> List.copyOf(this.configValues.getCrateNames());
+                    case 4 -> List.of("<amount>");
+                    default -> List.of();
+                };
             }
         }
 

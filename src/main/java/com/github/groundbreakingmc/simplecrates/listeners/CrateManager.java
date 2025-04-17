@@ -1,6 +1,5 @@
 package com.github.groundbreakingmc.simplecrates.listeners;
 
-import com.github.groundbreakingmc.mylib.utils.event.EventCheckUtils;
 import com.github.groundbreakingmc.simplecrates.SimpleCrates;
 import com.github.groundbreakingmc.simplecrates.utils.CaseUtils;
 import com.github.groundbreakingmc.simplecrates.utils.config.ConfigValues;
@@ -27,7 +26,7 @@ public final class CrateManager implements Listener {
     public void onInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
         if (player.getWorld() != this.configValues.getWorld()
-                || !EventCheckUtils.clickedOnBlock(event)
+                || !event.hasBlock()
                 || event.getInteractionPoint() == null) {
             return;
         }
@@ -38,7 +37,7 @@ public final class CrateManager implements Listener {
             return;
         }
 
-        if (!crateParams.getLeft().booleanValue()) {
+        if (!crateParams.getLeft()) {
             if (!this.dataManager.playerHasKeys(player, crateParams.getMiddle().getName(), 1)) {
                 player.sendMessage(this.configValues.getNoCasesMessage());
             } else {
@@ -50,7 +49,7 @@ public final class CrateManager implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onInteract(final BlockBreakEvent event) {
+    public void onBlockBreak(final BlockBreakEvent event) {
         final Player player = event.getPlayer();
         if (this.configValues.getWorld() != player.getWorld()) {
             return;

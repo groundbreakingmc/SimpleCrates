@@ -1,8 +1,7 @@
 package com.github.groundbreakingmc.simplecrates;
 
-import com.github.groundbreakingmc.mylib.logger.Logger;
-import com.github.groundbreakingmc.mylib.logger.LoggerFactory;
-import com.github.groundbreakingmc.mylib.logger.ModernLogger;
+import com.github.groundbreakingmc.mylib.logger.console.Logger;
+import com.github.groundbreakingmc.mylib.logger.console.LoggerFactory;
 import com.github.groundbreakingmc.simplecrates.command.CommandManager;
 import com.github.groundbreakingmc.simplecrates.database.DatabaseManager;
 import com.github.groundbreakingmc.simplecrates.listeners.CrateManager;
@@ -12,7 +11,6 @@ import com.github.groundbreakingmc.simplecrates.utils.CaseUtils;
 import com.github.groundbreakingmc.simplecrates.utils.config.ConfigValues;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -28,9 +26,8 @@ public final class SimpleCrates extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final Logger logger = new ModernLogger("Cases");
         for (int i = 0; i < 5; i++) {
-            logger.info("Be sure xism4 is down.");
+            customLogger.info("Be sure xism4 is down.");
         }
 
         try {
@@ -43,10 +40,7 @@ public final class SimpleCrates extends JavaPlugin {
         pluginManager.registerEvents(new CrateManager(this), this);
         pluginManager.registerEvents(this.dataManager, this);
 
-        final PluginCommand pluginCommand = super.getCommand("simplecrates");
-        final CommandManager commandManager = new CommandManager(this);
-        pluginCommand.setExecutor(commandManager);
-        pluginCommand.setTabCompleter(commandManager);
+        super.getCommand("simplecrates").setExecutor(new CommandManager(this));
 
         PlaceholderAPIPlugin.getInstance().getLocalExpansionManager().register(this.placeholder);
     }

@@ -2,6 +2,7 @@ package com.github.groundbreakingmc.simplecrates.listeners;
 
 import com.github.groundbreakingmc.simplecrates.SimpleCrates;
 import com.github.groundbreakingmc.simplecrates.database.DatabaseManager;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ public final class DataManager implements Listener {
     public DataManager(final SimpleCrates plugin) {
         this.plugin = plugin;
         this.database = plugin.getDatabase();
-        this.keys = new HashMap<>();
+        this.keys = new Object2ObjectOpenHashMap<>();
     }
 
     @EventHandler
@@ -58,7 +59,7 @@ public final class DataManager implements Listener {
     public void addPlayerKeys(final Player player, final String crateName, final int amount) {
         this.keys.compute(player.getUniqueId(), (uuid, playerKeys) -> {
             if (playerKeys == null) {
-                playerKeys = new HashMap<>();
+                playerKeys = new Object2ObjectOpenHashMap<>();
             }
             playerKeys.merge(crateName, amount, Integer::sum);
             return playerKeys;
